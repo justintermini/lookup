@@ -5,32 +5,43 @@ def main():
     file_dictionary = input_file()
     # Main input loop.
     while True:
+        # Prompt user for input
         choice = input("Lookup (1) phone numbers or (2) addresses: ")
-        name = input("Enter space-separated first and last name: ")
-        name = name.lower()
-        # Call the display_output file to show chosen output.
-        display_ouput(file_dictionary, name, choice)
-        # End program if user enters blank line
-        if choice == "" or name == "":
+        # Exit program is user enters blank line.
+        if choice == "":
             break
+        # Check to make sure choice is a digit and is only 1 or 2.
+        if choice.isdigit():
+            if int(choice) < 1 or int(choice) > 2:
+                continue
+            else:
+                # Prompt user for name to check against dictionary.
+                name = input("Enter space-separated first and last name: ")
+                # Exit program if user enters blank line.
+                if name == "":
+                    break
+                name = name.lower()
+                # Call the display_output file to show chosen output.
+                display_ouput(file_dictionary, name, choice)
 
 def input_file():
     """Read addresses from a file into a dictionary."""
+    # Initialize empty list and dictionary 
     line_list = []
     address_dict = {}
-
+    # Test to make sure file exists
     try:
         f = open("address.txt", 'r')
     except FileNotFoundError:
         print("error: must use a valid filename.")
         sys.exit(1)
-
+    # Read file line by line into a list.
     while True:
         line = f.readline()
         if line == "":
             break
         line_list.append(line.lower())
-
+    # Split list items into dictionary keys and values.
     for item in line_list:
         values = item.split(",")
         address_dict[values[0]] = (values[1], values[2], values[3], 
@@ -38,10 +49,6 @@ def input_file():
 
     f.close()
     return address_dict
-
-#address_file = input_file()
-
-#print(address_file)
 
 def display_ouput(addresses, input_name, user_choice=1):
     """Format output to display phone number or address."""
