@@ -1,3 +1,15 @@
+"""
+Program: termini_lookup
+Author: Justin Termini
+
+This program prompts the user to choose to lookup a phone number or an address,
+based on an input name. The program will continously prompt and output until a 
+blank line is entered.
+
+Input: A 1 for phone or 2 for address, then first and last name desired.
+Output: A phone number or full address.
+"""
+
 import sys
 
 def main():
@@ -32,6 +44,7 @@ def input_file():
     # Test to make sure file exists
     try:
         f = open("address.txt", 'r')
+    # Return error if file note found
     except FileNotFoundError:
         print("error: must use a valid filename.")
         sys.exit(1)
@@ -46,7 +59,7 @@ def input_file():
         values = item.split(",")
         address_dict[values[0]] = (values[1], values[2], values[3], 
                                   values[4], values[5].strip())
-
+    # Close file and return dictionary
     f.close()
     return address_dict
 
